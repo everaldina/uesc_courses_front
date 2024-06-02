@@ -1,16 +1,18 @@
-const board = document.getElementById("board");
-const cells = Array.from({ length: 9 }, (_, index) => {
+const board: any = document.getElementById("board");
+const cells = [];
+
+for (let i = 0; i < 9; i++) {
   const cell = document.createElement("div");
   cell.classList.add("cell");
-  cell.dataset.index = index.toString();
+  cell.dataset.index = i.toString();
   cell.addEventListener("click", handleCellClick);
-  return cell;
-});
+  cells.push(cell);
+}
 
 cells.forEach((cell) => board?.appendChild(cell));
 
-let currentPlayer = "X";
-const winningCombos = [
+let currentPlayer: "X" | "O" = "X";
+const winningCombos: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -20,18 +22,24 @@ const winningCombos = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-const boardState = Array(9).fill("");
+const boardState: string[] = [];
+for (let i = 0; i < 9; i++) {
+  boardState.push("");
+}
 
-function handleCellClick(event) {
-  const cellIndex = event.target.dataset.index;
-  if (boardState[cellIndex] === "" && !checkWinner()) {
+function handleCellClick(event: MouseEvent) {
+  const cellIndex: number = Number(
+    (event.target as HTMLElement)?.dataset.index
+  );
+
+  if (!isNaN(cellIndex) && boardState[cellIndex] === "" && !checkWinner()) {
     boardState[cellIndex] = currentPlayer;
-    event.target.textContent = currentPlayer;
+    if (event.target) (event.target as HTMLElement).textContent = currentPlayer;
     currentPlayer = currentPlayer === "X" ? "O" : "X";
   }
 }
 
-function checkWinner() {
+function checkWinner(): boolean {
   for (const combo of winningCombos) {
     const [a, b, c] = combo;
     if (
