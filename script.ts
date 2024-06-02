@@ -33,8 +33,12 @@ function handleCellClick(event: MouseEvent) {
   );
 
   if (!isNaN(cellIndex) && boardState[cellIndex] === "" && !checkWinner()) {
+    let color = currentPlayer === "X" ? "red" : "orange";
     boardState[cellIndex] = currentPlayer;
-    if (event.target) (event.target as HTMLElement).textContent = currentPlayer;
+    if (event.target) {
+      (event.target as HTMLElement).textContent = currentPlayer;
+      (event.target as HTMLElement).style.color = color;
+    }
     currentPlayer = currentPlayer === "X" ? "O" : "X";
   }
 }
@@ -47,7 +51,7 @@ function checkWinner(): boolean {
       boardState[a] === boardState[b] &&
       boardState[a] === boardState[c]
     ) {
-      alert(`Player ${boardState[a]} wins!`);
+      alert(`Jogador ${boardState[a]} ganhou!`);
       return true;
     }
   }

@@ -27,9 +27,12 @@ function handleCellClick(event) {
     var _a;
     var cellIndex = Number((_a = event.target) === null || _a === void 0 ? void 0 : _a.dataset.index);
     if (!isNaN(cellIndex) && boardState[cellIndex] === "" && !checkWinner()) {
+        var color = currentPlayer === "X" ? "red" : "orange";
         boardState[cellIndex] = currentPlayer;
-        if (event.target)
+        if (event.target) {
             event.target.textContent = currentPlayer;
+            event.target.style.color = color;
+        }
         currentPlayer = currentPlayer === "X" ? "O" : "X";
     }
 }
@@ -40,7 +43,7 @@ function checkWinner() {
         if (boardState[a] &&
             boardState[a] === boardState[b] &&
             boardState[a] === boardState[c]) {
-            alert("Player ".concat(boardState[a], " wins!"));
+            alert("Jogador ".concat(boardState[a], " ganhou!"));
             return true;
         }
     }
